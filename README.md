@@ -10,3 +10,5 @@ Database Server: Ubuntu 20.04 + MySQL
 Storage Server: Red Hat Enterprise Linux 8 + NFS Server
 Programming Language: PHP
 Code Repository: GitHub.
+
+![image](/images/Tooling-Website-Infrastructure.png)
