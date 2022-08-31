@@ -1,0 +1,1 @@
+### STEP 1 – PREPARE NFS SERVER
