@@ -110,7 +110,8 @@ Create mount points on /mnt directory for the logical volumes
 sudo mkdir /mnt/opt /mnt/apps /mnt/logs
 ```
 
-Mount the logical volumes
+Mount the logical volumes and verfiy
+
 ```bash
 sudo mount /dev/nfsdata-vg/lv-opt /mnt/opt
 sudo mount /dev/nfsdata-vg/lv-apps /mnt/apps
