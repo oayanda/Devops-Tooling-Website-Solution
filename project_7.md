@@ -154,7 +154,7 @@ sudo systemctl restart nfs-server.service
 
 Configure access to the NFS server for clients(wwebservers) within the same subnet (In this case the Subnet CIDR is 172.31.16.0/20)
 
-Open the exports file and add the mounts to be accessable
+Open the exports file and add the mounts to be accessable (on web server cidr address)
 
 ```bash
 sudo vi /etc/exports
@@ -274,3 +274,109 @@ Verify NFS server is properly configure for the 3 web servers. Create a text fil
 ![mount](/images/24.png)
 ![mount](/images/25.png)
 ![mount](/images/26.png)
+
+To store the web server logs, Locate the log folder for Apache on the Web Server and mount it to NFS server’s export for logs. 
+
+```bash
+sudo mount -t nfs -o rw,nosuid 172.31.28.191:/mnt/logs /var/log/httpd
+```
+
+Let's make sure this mount point persist after reboot.
+
+```bash
+sudo vi /etc/fstab
+```
+
+Add
+
+```bash
+172.31.28.191:/mnt/logs                  /var/log/httpd nfs     defaults        0       0
+```
+
+![mount](/images/27.png)
+
+Fork the tooling source code from Darey.io Github Account to your Github account.
+
+Next, Deploy the tooling website’s code to the Webserver. Ensure that the html folder from the repository is deployed to /var/www/html
+
+```bash
+sudo yum install git -y
+
+git init
+
+git clone https://github.com/oayanda/tooling.git
+```
+
+![mount](/images/28.png)
+
+Copy the content the html folder from the tooling app into the web server at /var/www/html
+
+```bash
+cd tooling
+sudo cp -R html/. /var/www/html
+```
+
+![mount](/images/29.png)
+
+Open port 80 for client access in the security group
+![mount](/images/30.png)
+
+```bash
+sudo setenforce 0
+```
+
+Make this change permanent 
+
+```bash
+sudo vi /etc/sysconfig/selinux
+```
+
+Set SELINUX=disabled 
+
+![mount](/images/31.png)
+
+Restrt httpd and check the status to make sure it is up and running.
+
+```bash
+sudo systemctl restart httpd
+sudo systemctl status httpd
+```
+
+![mount](/images/32.png)
+
+Update the website’s configuration to connect to the database.
+In the function.php ```(/var/www/html/functions.php)``` update the authentication details you used when creating the DB Server.
+
+![mount](/images/34.png)
+Install mysql client
+
+```bash
+sudo yum install mysql -y
+
+```
+On the DB Server, edit the mysqld.cnf file to allow anywhere Ip
+
+```bash
+sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf
+```
+
+![mount](/images/35.png)
+
+Back on the Web Server apply the tooling-db.sql script from the git clone folder  to DB Server. Make sure to be in the tooling directory.
+
+![mount](/images/36.png)
+
+Check the ```tooling``` database you created ealier in the  DB Server to see the script applied.
+
+![mount](/images/37.png)
+
+Notice the table user was created and now have a user admin(All from the script).
+
+Update the security group for the DB Server to all MYSQL/Aurora and cidr ip for the web servers.
+
+View Web-Server1 from browser using the public ip
+
+![mount](/images/38.png)
+
+Login with the defualt user ```admin```
+![mount](/images/39.png)
