@@ -164,8 +164,8 @@ Update the NFS file system table by adding the below exports.
 
 ```bash
 /mnt/apps 172.31.80.0/20(rw,sync,no_all_squash,no_root_squash)
-/mnt/logs 172.31.16.0/20(rw,sync,no_all_squash,no_root_squash)
-/mnt/opt 172.31.16.0/20(rw,sync,no_all_squash,no_root_squash)
+/mnt/logs 172.31.80.0/20(rw,sync,no_all_squash,no_root_squash)
+/mnt/opt 172.31.80.0/20(rw,sync,no_all_squash,no_root_squash)
 ```
 
 ![mount](/images/14.png)
