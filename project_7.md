@@ -118,4 +118,35 @@ sudo mount /dev/nfsdata-vg/lv-apps /mnt/apps
 sudo mount /dev/nfsdata-vg/lv-logs /mnt/logs
 ```
 
+```bash
+findmnt | grep /mnt
+```
+
 ![mount](/images/11.png)
+
+## Install NFS server, configure it to start on reboot and make sure it is updated and running
+
+```bash
+sudo yum -y update
+sudo yum install nfs-utils -y
+sudo systemctl start nfs-server.service
+sudo systemctl enable nfs-server.service
+sudo systemctl status nfs-server.service
+```
+
+![mount](/images/12.png)
+
+Export the mounts for webservers’ subnet cidr to connect as clients. For simplicity, we will install all three Web Servers inside the same subnet, but in production, it should be set up in separate tier inside its own subnet for higher level of security.
+
+```bash
+sudo chown -R nobody: /mnt/apps
+sudo chown -R nobody: /mnt/logs
+sudo chown -R nobody: /mnt/opt
+
+sudo chmod -R 777 /mnt/apps
+sudo chmod -R 777 /mnt/logs
+sudo chmod -R 777 /mnt/opt
+
+sudo systemctl restart nfs-server.service
+```
+![mount](/images/13.png)
