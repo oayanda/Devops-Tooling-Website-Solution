@@ -163,7 +163,7 @@ sudo vi /etc/exports
 Update the NFS file system table by adding the below exports.
 
 ```bash
-/mnt/apps 172.31.16.0/20(rw,sync,no_all_squash,no_root_squash)
+/mnt/apps 172.31.80.0/20(rw,sync,no_all_squash,no_root_squash)
 /mnt/logs 172.31.16.0/20(rw,sync,no_all_squash,no_root_squash)
 /mnt/opt 172.31.16.0/20(rw,sync,no_all_squash,no_root_squash)
 ```
@@ -209,3 +209,23 @@ show database;
 
 ## Step 3 — Prepare the Web Servers
 
+Launch a 3 EC2 instance with RHEL 8 Operating System as the web servers.
+
+![mount](/images/19.png)
+
+Update repo index and Install NFS client
+
+```bash
+sudo yum update -y
+sudo yum install nfs-utils nfs4-acl-tools -y
+```
+
+![mount](/images/20.png)
+
+Mount /var/www/ and target the NFS server’s export for apps
+
+```bash
+sudo mkdir /var/www
+sudo mount -t nfs -o rw,nosuid 172.31.80.0/20:/mnt/apps /var/www
+```
+![mount](/images/21.png)
