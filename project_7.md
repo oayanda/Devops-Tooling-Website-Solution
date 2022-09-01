@@ -222,10 +222,55 @@ sudo yum install nfs-utils nfs4-acl-tools -y
 
 ![mount](/images/20.png)
 
-Mount /var/www/ and target the NFS server’s export for apps
+Mount /var/www/ and target the NFS server’s(used nfs private ip) export for apps
 
 ```bash
 sudo mkdir /var/www
-sudo mount -t nfs -o rw,nosuid 172.31.80.0/20:/mnt/apps /var/www
+sudo mount -t nfs -o rw,nosuid 172.31.28.191:/mnt/apps /var/www
 ```
+
 ![mount](/images/21.png)
+
+Make sure that the changes will persist on Web Server after reboot
+
+```bash
+sudo vi /etc/fstab
+```
+
+Add
+
+```bash
+172.31.28.191:/mnt/apps /var/www nfs defaults  0  0
+```
+
+![mount](/images/22.png)
+
+Install Remi’s repository, Apache and PHP on the Web Server
+
+```bash
+sudo yum install httpd -y
+
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+
+sudo dnf install dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm -y
+
+sudo dnf module reset php -y
+sudo dnf module enable php:remi-7.4 -y
+
+sudo dnf install php php-opcache php-gd php-curl php-mysqlnd -y
+
+sudo systemctl start php-fpm
+sudo systemctl enable php-fpm
+
+sudo setsebool -P httpd_execmem 1
+```
+
+![mount](/images/23.png)
+
+>***Repeat the above steps for the Web-Server2 and Web-Server3***
+
+Verify NFS server is properly configure for the 3 web servers. Create a text file ```text.txt``` in ```Web-Server1``` (in ther server /var/www) and check if it is accessble from ```Web-Server2``` and ```Web-server3```
+
+![mount](/images/24.png)
+![mount](/images/25.png)
+![mount](/images/26.png)
