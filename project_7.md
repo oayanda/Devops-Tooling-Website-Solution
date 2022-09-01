@@ -183,3 +183,29 @@ Make sure to also open the following ports for the NFS server in your security g
 TCP 111, UDP 111, UDP 2049
 
 ![mount](/images/16.png)
+
+## STEP 2 — INSTALL & CONFIGURE THE DATABASE SERVER -Ubuntu 20.04 + MySQL
+
+Upate repo index and install mysql server
+
+```bash
+sudo apt update -y
+sudo apt install mysql-server -y
+```
+
+![mount](/images/17.png)
+Enter the mysql, create database named tooling, a user - named webaccess and grant priviledges only accessble via webserver cidr address
+
+```bash
+mysql
+create database tooling;
+create user 'webaccess'@'172.31.80.0/20' identified by 'password';
+grant all privileges on tooling.* TO 'webaccess'@'172.31.80.0/20';
+FLUSH PRIVILEGES;
+show database;
+```
+
+![mount](/images/18.png)
+
+## Step 3 — Prepare the Web Servers
+
