@@ -149,4 +149,37 @@ sudo chmod -R 777 /mnt/opt
 
 sudo systemctl restart nfs-server.service
 ```
+
 ![mount](/images/13.png)
+
+Configure access to the NFS server for clients(wwebservers) within the same subnet (In this case the Subnet CIDR is 172.31.16.0/20)
+
+Open the exports file and add the mounts to be accessable
+
+```bash
+sudo vi /etc/exports
+```
+
+Update the NFS file system table by adding the below exports.
+
+```bash
+/mnt/apps 172.31.16.0/20(rw,sync,no_all_squash,no_root_squash)
+/mnt/logs 172.31.16.0/20(rw,sync,no_all_squash,no_root_squash)
+/mnt/opt 172.31.16.0/20(rw,sync,no_all_squash,no_root_squash)
+```
+
+![mount](/images/14.png)
+
+Export the directories
+
+```bash
+sudo exportfs -arv
+```
+
+And check the port
+![mount](/images/15.png)
+
+Make sure to also open the following ports for the NFS server in your security group inbound rules.
+TCP 111, UDP 111, UDP 2049
+
+![mount](/images/16.png)
