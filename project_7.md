@@ -178,7 +178,7 @@ Export the directories
 sudo exportfs -arv
 ```
 
-And check the port
+check the port to be opened in the security group.
 ![mount](/images/15.png)
 
 Make sure to also open the following ports for the NFS server in your security group inbound rules.
@@ -196,7 +196,7 @@ sudo apt install mysql-server -y
 ```
 
 ![mount](/images/17.png)
-Enter the mysql, create database named tooling, a user - named webaccess and grant priviledges only accessble via webserver cidr address
+Enter the mysql, create database named tooling, a user - named ``` webaccess ``` and grant priviledges only accessble via webserver cidr address.
 
 ```bash
 mysql
@@ -271,7 +271,7 @@ sudo setsebool -P httpd_execmem 1
 
 >***Repeat the above steps for the Web-Server2 and Web-Server3***
 
-Verify NFS server is properly configure for the 3 web servers. Create a text file ```text.txt``` in ```Web-Server1``` (in ther server /var/www) and check if it is accessble from ```Web-Server2``` and ```Web-server3```
+Verify NFS server is properly configure for the 3 web servers. Test this by - Create a text file ```text.txt``` in ```Web-Server1``` (in ther server /var/www) and check if it is accessible from ```Web-Server2``` and ```Web-server3```
 
 ![mount](/images/24.png)
 ![mount](/images/25.png)
@@ -311,7 +311,7 @@ git clone https://github.com/oayanda/tooling.git
 
 ![mount](/images/28.png)
 
-Copy the content the html folder from the tooling app into the web server at /var/www/html
+Copy the content in the html folder from the tooling app into the web server at /var/www/html
 
 ```bash
 cd tooling
