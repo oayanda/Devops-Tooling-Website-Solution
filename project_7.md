@@ -311,7 +311,7 @@ git clone https://github.com/oayanda/tooling.git
 
 ![mount](/images/28.png)
 
-Copy the content in the html folder from the tooling app into the web server at /var/www/html
+Copy the content in the ``` html ``` folder from the ``` tooling app ``` into the web server at ```/var/www/html```
 
 ```bash
 cd tooling
@@ -337,7 +337,7 @@ Set SELINUX=disabled
 
 ![mount](/images/31.png)
 
-Restrt httpd and check the status to make sure it is up and running.
+Restart httpd and check the status to make sure it is up and running.
 
 ```bash
 sudo systemctl restart httpd
@@ -382,3 +382,4 @@ View Web-Server1 from browser using the public ip
 
 Login with the defualt user ```admin```
 ![mount](/images/39.png)
+
