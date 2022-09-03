@@ -44,7 +44,7 @@ sudo yum install lvm2
 
 ![install lvm](/images/6.png)
 
-Create PVs(Phycial Volumes) to added to Volume group.
+Create PVs(Phycial Volumes) to be added to Volume group.
 
 ```bash
 sudo pvcreate /dev/xvdf1 /dev/xvdg2 /dev/xvdh3
@@ -58,7 +58,7 @@ sudo pvs
 
 ![create physcial volumes](/images/7.png)
 
-Create Volume Group and add the physical volues to it.
+Create Volume Group and add the physical volumes to it.
 
 ```bash
 sudo vgcreate  nfsdata-vg /dev/xvdf1 /dev/xvdg2 /dev/xvdh3
@@ -118,6 +118,8 @@ sudo mount /dev/nfsdata-vg/lv-apps /mnt/apps
 sudo mount /dev/nfsdata-vg/lv-logs /mnt/logs
 ```
 
+Verify the mounts
+
 ```bash
 findmnt | grep /mnt
 ```
@@ -136,7 +138,7 @@ sudo systemctl status nfs-server.service
 
 ![mount](/images/12.png)
 
-Export the mounts for webservers’ subnet cidr to connect as clients. For simplicity, we will install all three Web Servers inside the same subnet, but in production, it should be set up in separate tier inside its own subnet for higher level of security.
+Export the mounts for webservers’ subnet cidr to connect as clients. For simplicity, I will install all three Web Servers inside the same subnet, but in production, it should be set up in separate tier inside its own subnet for higher level of security.
 
 ```bash
 sudo chown -R nobody: /mnt/apps
@@ -152,7 +154,7 @@ sudo systemctl restart nfs-server.service
 
 ![mount](/images/13.png)
 
-Configure access to the NFS server for clients(wwebservers) within the same subnet (In this case the Subnet CIDR is 172.31.16.0/20)
+Configure access to the NFS server for clients(webservers) within the same subnet (In this case the Subnet CIDR is 172.31.80.0/20)
 
 Open the exports file and add the mounts to be accessable (on web server cidr address)
 
